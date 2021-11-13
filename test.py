@@ -8,7 +8,7 @@ class Guess_the_number():
         self.upper_range = 100
 
     def get_random_number(self):
-        self.random_number = randint(1, 100)
+        self.random_number = randint(self.lower_range, self.upper_range)
         self.user_number = 0
         return self.random_number
 
