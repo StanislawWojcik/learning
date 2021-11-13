@@ -38,7 +38,7 @@ class Game():
 
                     if self.user_choice == 'scissors':
                         if self.comp_choice == 'paper':
-                            print(f'{self.user_choice} beats {self.comp_choice}! Point for computer')
+                            print(f'{self.user_choice} beats {self.comp_choice}! Point for you!')
                             self.counter += 1
                             self.user_win += 1
                         if self.comp_choice == 'rock':
