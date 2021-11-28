@@ -1,0 +1,46 @@
+# solutions for 3 test cases from PCC 17.3
+
+# 1.
+# tests if status code of getting API is correct
+import unittest
+# CUT
+test_value = r.status_code
+class StatusCodeTest(unittest.TestCase):
+    def test_status_code(self):
+        self.assertEqual(test_value, 200)
+
+if __name__ == '__main__':
+    unittest.main()
+
+# 2.
+# tests if amount of returned elements is equal to expected one
+
+import unittest
+# CUT
+returned_value = 0
+for submission_id in submission_ids[:10]:
+    returned_value += 1
+#CUT
+class ReturnedElemetnsTest(unittest.TestCase):
+    def test_status_code(self):
+        self.assertEqual(returned_value, 10)
+
+
+if __name__ == '__main__':
+    unittest.main()
+
+# 3.
+# tests if amount of repositories is higher than some previously defined number(201)
+
+# iterating over dictionary to count elements
+count_ids = 0
+for x in submission_ids:
+    count_ids += 1
+print(count_ids)
+class RepositoriesAmountTest(unittest.TestCase):
+
+    def test_status_code(self):
+        self.assertGreater(count_ids, 201)
+
+if __name__ == '__main__':
+    unittest.main()
