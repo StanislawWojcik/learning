@@ -60,13 +60,13 @@ my_layout = {
     'titlefont': {'size': 28},
     'xaxis': {
         'title': 'Articles',
-        'titlefont': {'size': 24},
-        'tickfont': {'size': 14},
+        'titlefont': {'size': 14},
+        'tickfont': {'size': 10},
     },
     'yaxis': {
         'title': 'Score',
-        'titlefont': {'size': 24},
-        'tickfont': {'size': 14},
+        'titlefont': {'size': 14},
+        'tickfont': {'size': 10},
     }
 }
 
