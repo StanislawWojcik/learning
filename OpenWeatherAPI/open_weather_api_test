@@ -1,0 +1,63 @@
+import requests
+from datetime import datetime
+
+
+class OpenWeather:
+
+    def __init__(self, user_choice):
+        self.user_choice = user_choice
+        self.current_temp = 0
+        self.temp_max = 0
+        self.temp_min = 0
+        self.wind_speed = 0
+        self.data_json = {}
+        self.ow_data = {}
+        self.today = (0, 0, 0)
+
+    def api_response(self):
+        url = "https://community-open-weather-map.p.rapidapi.com/weather"
+        querystring = {"q": self.user_choice}
+        headers = {
+            'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
+            'x-rapidapi-key': "5409065076mshbcf1d23ffbc355cp10c538jsn5d24cf34a487"
+            }
+        self.response = requests.request("GET", url, headers=headers, params=querystring)
+        return self.response
+
+    def dict_to_json(self):
+        dict_json = self.api_response()
+        self.data_json = dict_json.json()
+        return self.data_json
+
+    def kalvin_to_celsius(self, temp):
+        temp_in_celsius = temp - 273.15
+        round_temp = round(temp_in_celsius)
+        return round_temp
+
+    def weather_display(self):
+        data_to_display = self.dict_to_json()
+        self.ow_data = data_to_display
+        self.current_temp = self.ow_data['main']['temp']
+        self.temp_max = self.ow_data['main']['temp_max']
+        self.temp_min = self.ow_data['main']['temp_min']
+        self.wind_speed = self.ow_data['wind']['speed']
+
+        td = int(self.ow_data['dt'])
+        self.today = datetime.utcfromtimestamp(td).strftime('%d-%m-%Y')
+        print(f'Temperatures in {self.user_choice} from on {self.today}')
+        print(f'Current temp: {self.kalvin_to_celsius(self.current_temp)} Celsius')
+        print(f'Maximum temperature: {self.kalvin_to_celsius(self.temp_max)} Celsius')
+        print(f'Minimum temperature: {self.kalvin_to_celsius(self.temp_min)} Celsius')
+        print(f'Wind speed: {self.wind_speed} m/s')
+
+
+while True:
+    uc = input('Please insert city name: ')
+    get_weather = OpenWeather(uc)
+    if get_weather.api_response().status_code == 200:
+        print(get_weather.weather_display())
+        break
+    else:
+        print('Incorrect city name!')
+        continue
+
