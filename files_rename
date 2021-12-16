@@ -1,0 +1,53 @@
+import re
+import os
+from pathlib import Path
+
+# regex for file name
+r = re.compile(r'''
+    (spam)
+    (\d?\d?\d?)
+    ''', re.VERBOSE)
+
+def list_of_files():
+    # returns sorted list of files from specified path
+    p = Path('/home/tester/dowolny_katalog')
+    file_list = []
+    for file in os.listdir(p):
+        mo = r.search(file)
+        file_list.append(mo.group(2))
+    file_list.sort()
+    return file_list
+
+def miss_num():
+    # returns list of missing numbers in files names
+    file_list = list_of_files()
+    counter = 1
+    missing_numbers = []
+    for i in file_list:
+        if int(i) == counter:
+            counter += 1
+        else:
+            missing_numbers.append(int(i) - 1)
+            counter += 2
+    return missing_numbers
+
+def change_the_names():
+    # renames the files
+    missing_numbers = miss_num()
+    file_list = list_of_files()
+    for missing_number in missing_numbers:
+            if int(missing_numbers[-1]) > int(file_list[-1]):
+                pass
+            else:
+                if int(missing_number) < 10:
+                    new_name = 'spam' + '00' + str(missing_number) + '.txt'
+                    print(new_name)
+                    os.rename(r'/home/tester/dowolny_katalog/spam' + file_list[-1] + '.txt',
+                              r'/home/tester/dowolny_katalog/' + new_name)
+                    file_list.pop()
+                if int(missing_number) >= 10:
+                    new_name = 'spam' + '0' + str(missing_number) + '.txt'
+                    print(new_name)
+                    os.rename(r'/home/tester/dowolny_katalog/spam' + file_list[-1] + '.txt',
+                              r'/home/tester/dowolny_katalog/' + new_name)
+                    file_list.pop()
