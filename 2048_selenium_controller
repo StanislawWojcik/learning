@@ -1,0 +1,26 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
+
+s = Service("/home/tester/selenium_chrome/drivers/chromedriver")
+browser = webdriver.Chrome(service=s)
+
+browser.get('https://play2048.co/')
+add_elem = browser.find_element(By.CLASS_NAME, "ezmob-footer-close")
+add_elem.click()
+
+cookie_elem = browser.find_element(By.CSS_SELECTOR, "a.cc_btn.cc_btn_accept_all")
+cookie_elem.click()
+
+while True:
+    html_elem = browser.find_element(By.TAG_NAME, "html")
+    move = input('w/s/a/d\n')
+    if move == 'w':
+        html_elem.send_keys(Keys.UP)
+    if move == 's':
+        html_elem.send_keys(Keys.DOWN)
+    if move == 'a':
+        html_elem.send_keys(Keys.LEFT)
+    if move == 'd':
+        html_elem.send_keys(Keys.RIGHT)
