@@ -1,0 +1,41 @@
+# downloades "zebra" images from imgur.com
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
+import requests
+
+s = Service("/home/tester/selenium_chrome/drivers/chromedriver")
+browser = webdriver.Chrome(service=s)
+
+# closes cookies popup
+browser.get('https://imgur.com')
+cookie_elem = browser.find_element(By.CLASS_NAME, "css-47sehv")
+cookie_elem.click()
+
+# searches for 'zebra'
+search = browser.find_element(By.NAME, "q")
+search.send_keys('zebra')
+search.send_keys(Keys.ENTER)
+
+# gets the list of desired elements
+pictures = browser.find_elements(By.CLASS_NAME, 'post')
+
+for i in range(len(pictures)):
+    pictures[i].click()
+    
+    # try/except block in case there is no picture (but eg. video)
+    try:
+        url = browser.find_element(By.CLASS_NAME, 'image-placeholder').get_attribute('src')
+        res = requests.get(url)
+        picture_file = open('zebra' + str(i), 'wb')
+        for pic in res.iter_content(100000):
+            picture_file.write(pic)
+    except:
+        pass
+    browser.back()
+    browser.implicitly_wait(5)
+    # goes back to search results page and gets a new list of elements
+    pictures = browser.find_elements(By.CLASS_NAME, 'post')
+    browser.implicitly_wait(5)
